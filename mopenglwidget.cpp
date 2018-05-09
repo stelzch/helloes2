@@ -27,15 +27,15 @@ void MOpenGLWidget::initializeGL() {
     m_matrixUniform = simple.uniformLocation("matrix");
 
 
-    vertices = new GLfloat[(planeSegments + 1) * (planeSegments + 1) * 2];
+    vertices = new GLfloat[(planeSegments + 1) * (planeSegments + 1) * 3];
     for(unsigned int col = 0; col < planeSegments + 1; col++) {
         for(unsigned int row = 0; row < planeSegments + 1; row++) {
-            unsigned int index = 2 * (row * (planeSegments + 1) + col);
+            unsigned int index = 3 * (row * (planeSegments + 1) + col);
             /*qDebug() << "X: " << col << " Y: " << row << " Index: " << index << " = (" << col / float(planeSegments) << "|"
                      << row / float(planeSegments) << ")"; */
             vertices[index + 0] = col / float(planeSegments);
             vertices[index + 1] = row / float(planeSegments);
-            //vertices[index + 2] = 2.0f;
+            vertices[index + 2] = 0.0f;
         }
     }
 
@@ -101,7 +101,7 @@ void MOpenGLWidget::paintGL() {
 
     simple.setUniformValue(m_matrixUniform, mvpMatrix);
 
-    f->glVertexAttribPointer(m_posAttr, 2, GL_FLOAT, GL_FALSE, 0, vertices);
+    f->glVertexAttribPointer(m_posAttr, 3, GL_FLOAT, GL_FALSE, 0, vertices);
     f->glEnableVertexAttribArray(0);
 
 
@@ -117,7 +117,6 @@ void MOpenGLWidget::paintGL() {
 }
 
 void MOpenGLWidget::mousePressEvent(QMouseEvent *evt) {
-    qDebug() << "Setting to zero";
     mouseStartX = evt->globalX();
     mouseStartY = evt->globalY();
 }
@@ -125,7 +124,6 @@ void MOpenGLWidget::mousePressEvent(QMouseEvent *evt) {
 void MOpenGLWidget::mouseMoveEvent(QMouseEvent *evt) {
     float deltaX = evt->globalX() - mouseStartX;
     float deltaY = evt->globalY() - mouseStartY;
-    qDebug() << "X: " << deltaX << " Y: " << deltaY;
 
     rotX += deltaX * 0.4;
     rotY += deltaY * 0.4;

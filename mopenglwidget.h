@@ -33,7 +33,7 @@ protected:
     float mouseStartX, mouseStartY;
 
 
-    const unsigned int planeSegments = 2;
+    const unsigned int planeSegments = 20;
     const float planeSize = 1.0;
 
     void initializeGL();
