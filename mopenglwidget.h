@@ -7,6 +7,7 @@
 #include <QOpenGLFunctions>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLVertexArrayObject>
+#include <QOpenGLTexture>
 #include <QMatrix4x4>
 #include <QMouseEvent>
 #include <QWheelEvent>
@@ -20,12 +21,13 @@ public:
 
 protected:
     QOpenGLShaderProgram simple;
-    GLuint m_posAttr;
+    GLuint m_posAttr, m_texCoordAttr;
     GLuint m_matrixUniform;
     QMatrix4x4 mvpMatrix;
     int frameNr = 0;
     GLfloat *vertices;
     GLshort *indices;
+    QOpenGLTexture *tex;
 
     float zoom = 2.0;
     float rotX = 0.0, rotY = 0.0;
@@ -33,7 +35,7 @@ protected:
     float mouseStartX, mouseStartY;
 
 
-    const unsigned int planeSegments = 20;
+    const unsigned int planeSegments = 200;
     const float planeSize = 1.0;
 
     void initializeGL();
